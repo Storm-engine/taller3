@@ -1,0 +1,17 @@
+//Realice la carga de la base de datos con al menos 15 empleados de diferentes cargos, cree un gerente y por lo menos un empleado de los cargos subyacentes, teniendo en cuenta que la mayoría son empleados.
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/empleados.csv' AS row
+CREATE (:Empleado {
+  codigo_empresarial: row.codigo_empresarial,
+  nombre: row.nombre,
+  apellido: row.apellido,
+  edad: toInteger(row.edad),
+  documento: row.documento,
+  cargo: row.cargo
+});
+
+LOAD CSV WITH HEADERS FROM 'file:///jefes.csv' AS row
+MATCH (j:Empleado {codigo_empresarial: row.jefe})
+MATCH (s:Empleado {codigo_empresarial: row.subordinado})
+CREATE (j)-[:JEFE_DE]->(s);
