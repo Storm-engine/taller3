@@ -11,7 +11,28 @@ CREATE (:Empleado {
   cargo: row.cargo
 });
 
-LOAD CSV WITH HEADERS FROM 'file:///jefes.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/jefes.csv' AS row
 MATCH (j:Empleado {codigo_empresarial: row.jefe})
 MATCH (s:Empleado {codigo_empresarial: row.subordinado})
 CREATE (j)-[:JEFE_DE]->(s);
+
+
+//
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/post.csv' AS row
+CREATE (:Post {
+  id_post: row.id_post,
+  titulo: row.titulo,
+  descripcion: row.descripcion,
+  fecha: row.fecha
+});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/post_autor.csv' AS row
+MATCH (e:Empleado {codigo_empresarial: row.codigo_empresarial})
+MATCH (p:Post {id_post: row.id_post})
+CREATE (e)-[:PUBLICA]->(p);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/comentarios.csv' AS row
+MATCH (p:Post {id_post: row.id_post})
+MATCH (c:Empleado {codigo_empresarial: row.codigo_empleado})
+CREATE (c)-[:COMENTA {fecha: row.fecha, texto: row.texto}]->(p);
