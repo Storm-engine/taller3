@@ -1,31 +1,31 @@
-titulo_post,codigo_empleado,fecha,texto
-Lanzamiento de la red interna,E002,2024-09-11,Excelente noticia Maria se notó el trabajo
-Lanzamiento de la red interna,E003,2024-09-12,por fin ya era hora de eso
-Gira regional,E004,2024-09-13,Se nota la buena energia del grupo
-Gira regional,E005,2024-09-13,muy buena gira los vi motivados
-Dia de bienestar,E006,2024-09-15,Me gusto la actividad de relajacion
-Dia de bienestar,E007,2024-09-15,gracias por organizar eso estuvo top
-Informe seccional,E008,2024-09-17,qe bueno santiago bien por el equipo
-Informe seccional,E009,2024-09-17,buen informe la verdad
-Reconocimiento,E010,2024-09-19,Felicitaciones merecido reconocimiento
-Reconocimiento,E011,2024-09-19,Se lo ganaron todos los del turno 2
-Actualización de software,E012,2024-09-21,bien ahi con la actualizacion
-Actualización de software,E013,2024-09-21,ya funciona rapido por fin
-Obras en la sede norte,E014,2024-09-23,ojala terminen pronto las obras
-Obras en la sede norte,E015,2024-09-23,gracias por avisar los ruidos nos tienen locos jaja
-Mi primer dia en la empresa,E009,2024-09-25,bienvenido diego cualquier cosa me escribes
-Mi primer dia en la empresa,E010,2024-09-25,mucha suerte en tu inicio
-Ideas para mejorar,E011,2024-09-27,me gusto la propuesta tiene sentido
-Ideas para mejorar,E012,2024-09-27,interesante aporte lo voy a revisar
-Reunion del equipo,E013,2024-09-29,buen resumen la reunion estuvo util
-Reunion del equipo,E014,2024-09-29,asi si da gusto trabajar
-Capacitación tecnica,E015,2024-10-01,gracias por compartir la info
-Capacitación tecnica,E008,2024-10-01,no entendi la parte del tercer paso jaja
-Cumple de area,E009,2024-10-03,gracias por invitar estuvo chevere
-Cumple de area,E010,2024-10-03,la comida buenisima jajaj
-Cierre de mes,E011,2024-10-05,bien cerrado ese mes
-Cierre de mes,E012,2024-10-05,se noto el esfuerzo de todos
-Nuevo proyecto interno,E013,2024-10-07,vamos con toda ese nuevo proyecto
-Nuevo proyecto interno,E014,2024-10-07,a ver si nos dan mas detalles pronto
-Inicio de practicas,E015,2024-10-09,animo en las practicas
-Inicio de practicas,E001,2024-10-09,vas bien nati segui asi
+id_post,codigo_empleado,fecha,texto
+P001,E002,2024-09-11,Excelente noticia Maria se notó el trabajo
+P001,E003,2024-09-12,por fin ya era hora de eso
+P002,E004,2024-09-13,Se nota la buena energia del grupo
+P002,E005,2024-09-13,muy buena gira los vi motivados
+P003,E006,2024-09-15,Me gusto la actividad de relajacion
+P003,E007,2024-09-15,gracias por organizar eso estuvo top
+P004,E008,2024-09-17,qe bueno santiago bien por el equipo
+P004,E009,2024-09-17,buen informe la verdad
+P005,E010,2024-09-19,Felicitaciones merecido reconocimiento
+P005,E011,2024-09-19,Se lo ganaron todos los del turno 2
+P006,E012,2024-09-21,bien ahi con la actualizacion
+P006,E013,2024-09-21,ya funciona rapido por fin
+P007,E014,2024-09-23,ojala terminen pronto las obras
+P007,E015,2024-09-23,gracias por avisar los ruidos nos tienen locos jaja
+P008,E009,2024-09-25,bienvenido diego cualquier cosa me escribes
+P008,E010,2024-09-25,mucha suerte en tu inicio
+P009,E011,2024-09-27,me gusto la propuesta tiene sentido
+P009,E012,2024-09-27,interesante aporte lo voy a revisar
+P010,E013,2024-09-29,buen resumen la reunion estuvo util
+P010,E014,2024-09-29,asi si da gusto trabajar
+P011,E015,2024-10-01,gracias por compartir la info
+P011,E008,2024-10-01,no entendi la parte del tercer paso jaja
+P012,E009,2024-10-03,gracias por invitar estuvo chevere
+P012,E010,2024-10-03,la comida buenisima jajaj
+P013,E011,2024-10-05,bien cerrado ese mes
+P013,E012,2024-10-05,se noto el esfuerzo de todos
+P014,E013,2024-10-07,vamos con toda ese nuevo proyecto
+P014,E014,2024-10-07,a ver si nos dan mas detalles pronto
+P015,E015,2024-10-09,animo en las practicas
+P015,E001,2024-10-09,vas bien nati segui asi
