@@ -1,0 +1,16 @@
+codigo_empresarial,nombre,apellido,edad,documento,cargo
+E001,María,Fernández,48,1001122334,Gerente
+E002,Andrés,Cárdenas,42,1002233445,Líder Regional
+E003,Juliana,Guzmán,40,1003344556,Líder Regional
+E004,Santiago,Rojas,36,1004455667,Líder Seccional
+E005,Catalina,Torres,35,1005566778,Líder Seccional
+E006,Luis,Martínez,32,1006677889,Administrador
+E007,Paula,Vargas,30,1007788990,Administrador
+E008,Diego,Suárez,28,1008899001,Empleado
+E009,Laura,Mesa,26,1009900112,Empleado
+E010,Camilo,Pérez,27,1010011223,Empleado
+E011,Valeria,Cano,24,1011122334,Empleado
+E012,Juan,González,29,1012233445,Empleado
+E013,Sara,Quintero,25,1013344556,Empleado
+E014,Óscar,Linares,31,1014455667,Empleado
+E015,Natalia,Barrera,23,1015566778,Empleado
