@@ -36,3 +36,17 @@ LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/talle
 MATCH (p:Post {id_post: row.id_post})
 MATCH (c:Empleado {codigo_empresarial: row.codigo_empleado})
 CREATE (c)-[:COMENTA {fecha: row.fecha, texto: row.texto}]->(p);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/amigos.csv' AS row
+MATCH (a:Empleado {codigo_empresarial: row.codigo_empleado1})
+MATCH (b:Empleado {codigo_empresarial: row.codigo_empleado2})
+MERGE (a)-[:AMIGO_DE {fecha: row.fecha}]->(b)
+MERGE (b)-[:AMIGO_DE {fecha: row.fecha}]->(a);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/reportes.csv' AS row
+MATCH (r:Empleado {codigo_empresarial: row.codigo_reportado})
+MATCH (q:Empleado {codigo_empresarial: row.codigo_reportante})
+CREATE (r)-[:REPORTADO_POR {
+  fecha: row.fecha,
+  motivo: row.motivo
+}]->(q);
