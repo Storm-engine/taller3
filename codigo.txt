@@ -50,3 +50,185 @@ CREATE (r)-[:REPORTADO_POR {
   fecha: row.fecha,
   motivo: row.motivo
 }]->(q);
+
+// CREACIÓN DE CONSTRAINTS
+CREATE CONSTRAINT empleado_codigo IF NOT EXISTS
+FOR (e:Empleado) REQUIRE e.codigo_empresarial IS UNIQUE;
+CREATE CONSTRAINT post_id IF NOT EXISTS
+FOR (p:Post) REQUIRE p.id_post IS UNIQUE;
+
+// CARGA DE EMPLEADOS
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/empleados.csv' AS row
+CREATE (:Empleado {
+  codigo_empresarial: row.codigo_empresarial,
+  nombre: row.nombre,
+  apellido: row.apellido,
+  edad: toInteger(row.edad),
+  documento: row.documento,
+  cargo: row.cargo
+});
+
+// CARGA DE POSTS
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/post.csv' AS row
+CREATE (:Post {
+  id_post: row.id_post,
+  titulo: row.titulo,
+  descripcion: row.descripcion,
+  fecha: row.fecha
+});
+
+// RELACIÓN PUBLICA
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/post_autor.csv' AS row
+MATCH (e:Empleado {codigo_empresarial: row.codigo_empresarial})
+MATCH (p:Post {id_post: row.id_post})
+CREATE (e)-[:PUBLICA]->(p);
+
+// RELACIÓN COMENTA
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/comentarios.csv' AS row
+MATCH (p:Post {id_post: row.id_post})
+MATCH (c:Empleado {codigo_empresarial: row.codigo_empleado})
+CREATE (c)-[:COMENTA {fecha: row.fecha, texto: row.texto}]->(p);
+
+// RELACIÓN LIKEA
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/likes.csv' AS row
+MATCH (e:Empleado {codigo_empresarial: row.codigo_empresarial})
+MATCH (p:Post {id_post: row.id_post})
+CREATE (e)-[:LIKEA {fecha: row.fecha}]->(p);
+
+// RELACIÓN JEFE_DE
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/jefes.csv' AS row
+MATCH (j:Empleado {codigo_empresarial: row.jefe})
+MATCH (s:Empleado {codigo_empresarial: row.subordinado})
+CREATE (j)-[:JEFE_DE]->(s);
+
+// RELACIÓN AMIGO_DE
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/amigos.csv' AS row
+MATCH (a:Empleado {codigo_empresarial: row.codigo_empleado1})
+MATCH (b:Empleado {codigo_empresarial: row.codigo_empleado2})
+MERGE (a)-[:AMIGO_DE {fecha: row.fecha}]->(b)
+MERGE (b)-[:AMIGO_DE {fecha: row.fecha}]->(a);
+
+// RELACIÓN REPORTA
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/Storm-engine/taller3/refs/heads/main/reportes.csv' AS row
+MATCH (r:Empleado {codigo_empresarial: row.codigo_reportante})
+MATCH (q:Empleado {codigo_empresarial: row.codigo_reportado})
+CREATE (r)-[:REPORTA {fecha: row.fecha, tipo: row.tipo, descripcion: row.descripcion}]->(q);
+
+// INSERCIÓN NUEVO EMPLEADO
+CREATE (:Empleado {
+  codigo_empresarial: 'E016',
+  nombre: 'Carlos',
+  apellido: 'Ramírez',
+  edad: 30,
+  documento: '1098765432',
+  cargo: 'Administrador'
+});
+
+// NUEVA AMISTAD
+MATCH (a:Empleado {codigo_empresarial: 'E016'}), (b:Empleado {codigo_empresarial: 'E005'})
+MERGE (a)-[:AMIGO_DE {fecha: date()}]->(b)
+MERGE (b)-[:AMIGO_DE {fecha: date()}]->(a);
+
+// NUEVO POST
+MATCH (e:Empleado {codigo_empresarial: 'E016'})
+CREATE (p:Post {
+  id_post: 'P016',
+  titulo: 'Bienvenido a la red',
+  descripcion: 'Mi primer post en la red corporativa.',
+  fecha: date()
+})
+CREATE (e)-[:PUBLICA]->(p);
+
+// NUEVOS COMENTARIOS
+MATCH (p:Post {id_post: 'P016'})
+MATCH (c1:Empleado {codigo_empresarial: 'E003'}), (c2:Empleado {codigo_empresarial: 'E009'})
+CREATE (c1)-[:COMENTA {fecha: date(), texto: '¡Excelente post!'}]->(p)
+CREATE (c2)-[:COMENTA {fecha: date(), texto: 'Bienvenido Carlos!'}]->(p);
+
+// UPDATE EMPLEADO
+MATCH (e:Empleado {codigo_empresarial: 'E016'})
+SET e.nombre = 'Carlos Andrés',
+    e.apellido = 'Ramírez Gómez',
+    e.cargo = 'Líder Regional'
+RETURN e;
+
+// UPDATE POST
+MATCH (p:Post {id_post: 'P016'})
+SET p.titulo = 'Mi primer día como Líder Regional',
+    p.descripcion = 'Hoy comienzo mi nuevo cargo y estoy muy motivado para asumir este reto.'
+RETURN p;
+
+// UPDATE COMENTARIO
+MATCH (c:Empleado {codigo_empresarial: 'E002'})-[r:COMENTA]->(p:Post {id_post: 'P016'})
+SET r.texto = '¡Felicitaciones por el ascenso, Carlos!',
+    r.fecha = date()
+RETURN c, r, p;
+
+// DELETE EMPLEADO
+MATCH (e:Empleado {codigo_empresarial: 'E016'})
+DETACH DELETE e;
+
+// DELETE REPORTE
+MATCH (:Empleado {codigo_empresarial: 'E010'})-[r:REPORTA]->(:Empleado {codigo_empresarial: 'E003'})
+DELETE r;
+
+// DELETE POST
+MATCH (p:Post {id_post: 'P016'})
+DETACH DELETE p;
+
+// SEARCH EMPLEADOS POR ROL
+MATCH (e:Empleado)
+WHERE e.cargo = 'Analista'
+RETURN e;
+
+// SEARCH SUBORDINADOS
+MATCH (j:Empleado {codigo_empresarial: 'E001'})-[:JEFE_DE]->(s:Empleado)
+RETURN s;
+
+// SEARCH AMIGOS
+MATCH (a:Empleado {codigo_empresarial: 'E005'})-[:AMIGO_DE]->(b:Empleado)
+RETURN b;
+
+// SEARCH AMIGOS DE AMIGOS
+MATCH (a:Empleado {codigo_empresarial: 'E005'})-[:AMIGO_DE]->(:Empleado)-[:AMIGO_DE]->(fof:Empleado)
+WHERE NOT (a)-[:AMIGO_DE]->(fof) AND a <> fof
+RETURN DISTINCT fof;
+
+// SEARCH EMPLEADO CON MÁS AMIGOS
+MATCH (e:Empleado)-[:AMIGO_DE]-(amigo:Empleado)
+WITH e, COUNT(DISTINCT amigo) AS total
+RETURN e, total
+ORDER BY total DESC
+LIMIT 1;
+
+-----
+
+// a) Consultar los POST de un empleado
+MATCH (e:Empleado {codigo_empresarial: 'E005'})-[:PUBLICA]->(p:Post)
+RETURN p.id_post, p.titulo, p.descripcion, p.fecha;
+
+// b) Consultar los comentarios de un POST
+MATCH (e:Empleado)-[c:COMENTA]->(p:Post {id_post: 'P010'})
+RETURN e.nombre, e.apellido, c.texto, c.fecha
+ORDER BY c.fecha;
+
+// c) Consultar los empleados que le dieron me gusta a un POST
+MATCH (e:Empleado)-[:LIKEA]->(p:Post {id_post: 'P010'})
+RETURN e.codigo_empresarial, e.nombre, e.apellido;
+
+// d) Consultar los 3 POST con más me gusta
+MATCH (p:Post)<-[l:LIKEA]-()
+RETURN p.id_post, p.titulo, COUNT(l) AS total_likes
+ORDER BY total_likes DESC
+LIMIT 3;
+
+// a) Dado un cargo, consultar los empleados que tengan reportes de acoso laboral para ese cargo
+MATCH (r:Empleado)-[:REPORTA]->(e:Empleado)
+WHERE e.cargo = 'Gerente'
+RETURN e.codigo_empresarial, e.nombre, e.apellido, e.cargo, COUNT(*) AS total_reportes
+ORDER BY total_reportes DESC;
+
+// b) Consultar el número de reportes por acoso realizados por un empleado
+MATCH (e:Empleado {codigo_empresarial: 'E005'})-[r:REPORTA]->()
+RETURN e.codigo_empresarial, e.nombre, COUNT(r) AS total_reportes;
+
